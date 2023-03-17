@@ -21,7 +21,6 @@ const RootLayout = ({ children }) => {
       <body className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <Header />
           {children}
         </main>
       </body>
