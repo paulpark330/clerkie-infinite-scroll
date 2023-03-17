@@ -1,4 +1,12 @@
+@import "../styles/mixin.scss";
+
+
 .container {
   display: flex;
   flex-direction: row;
+}
+
+.main {
+  @include flex(column);
+  flex: 1;
 }

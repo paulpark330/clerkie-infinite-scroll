@@ -23,7 +23,7 @@ const Navbar = () => {
         {links.map((link) => (
           <Link key={link.href} href={link.href}>
             <div className={styles.item}>
-              <Image width={24} height={24} src={link.imgSrc} />
+              <Image width={24} height={24} src={link.imgSrc} alt="icon" />
               <div>{link.text}</div>
             </div>
           </Link>
@@ -34,3 +34,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
