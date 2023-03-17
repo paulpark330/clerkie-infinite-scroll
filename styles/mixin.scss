@@ -1,0 +1,20 @@
+@mixin flex(
+  $direction: null,
+  $justify-content: null,
+  $align-items: null,
+  $gap: null
+) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  gap: $gap;
+}
+
+@mixin font($size, $weight, $style, $line-height, $color) {
+  font-size: $size;
+  font-weight: $weight;
+  font-style: $style;
+  line-height: $line-height;
+  color: $color;
+}
