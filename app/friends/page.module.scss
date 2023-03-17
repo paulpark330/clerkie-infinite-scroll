@@ -1,0 +1,11 @@
+@import "../styles/mixin.scss";
+
+.container {
+  width: 100%;
+  .main {
+    @include flex(row, center, center);
+    .friends {
+      @include flex(column, center, center, 15px);
+    }
+  }
+}
