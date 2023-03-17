@@ -3,11 +3,12 @@ import styles from "./layout.module.scss";
 import "@/styles/globals.scss";
 import "@/styles/reset.scss";
 import { Inter } from "next/font/google";
+import Header from "@/components/Header/Header";
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Clerkie Infinite Scroll",
@@ -19,7 +20,10 @@ const RootLayout = ({ children }) => {
     <html lang="en" className={inter.className}>
       <body className={styles.container}>
         <Navbar />
-        {children}
+        <main className={styles.main}>
+          <Header />
+          {children}
+        </main>
       </body>
     </html>
   );
