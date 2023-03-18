@@ -1,7 +1,7 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Friend from "@/components/Friend/Friend";
 import styles from "./FriendList.module.scss";
 
@@ -10,6 +10,11 @@ const API_URL = "https://strapi-clerkie-infinite-scroll.up.railway.app/api";
 
 const FriendList = () => {
   const [lastPage, setLastPage] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) {
@@ -43,12 +48,14 @@ const FriendList = () => {
     return res.json();
   };
 
-  const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
+  const { data, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
 
-  const handleScroll = (event) => {
-    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-    if (scrollTop + clientHeight >= scrollHeight && !isValidating) {
-      setSize(size + 1);
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } =
+      window.document.documentElement;
+
+    if (scrollTop + clientHeight >= scrollHeight && !lastPage) {
+      setSize((size) => size + 1);
     }
   };
 
@@ -60,7 +67,12 @@ const FriendList = () => {
         <Friend friend={friend.attributes} key={friend.id} />
       ))}
       {lastPage && (
-        <div className={styles["last-page"]}>🥳 You have so many friends! 🥳</div>
+        <div className={styles["last-page"]}>
+          🥳 You have so many friends! 🥳
+        </div>
+      )}
+      {isValidating && !lastPage && (
+        <div className={styles["loading"]}>Loading...</div>
       )}
     </ul>
   );

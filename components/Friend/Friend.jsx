@@ -12,6 +12,7 @@ const Friend = ({ friend }) => {
 
   const [hoverX, setHoverX] = useState(0);
   const [hoverY, setHoverY] = useState(0);
+  const [scale, setScale] = useState(1);
 
   const handleMouseMove = (event) => {
     const { left, top, width, height } =
@@ -20,11 +21,13 @@ const Friend = ({ friend }) => {
     const y = ((event.clientY - top) / height - 0.5) * 10;
     setHoverX(x);
     setHoverY(y);
+    setScale(1.05);
   };
 
   const handleMouseLeave = () => {
     setHoverX(0);
     setHoverY(0);
+    setScale(1);
   };
 
   return (
@@ -32,7 +35,9 @@ const Friend = ({ friend }) => {
       className={styles.friend}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ transform: `translate(${hoverX}px, ${hoverY}px)` }}
+      style={{
+        transform: `translate(${hoverX}px, ${hoverY}px) scale(${scale})`,
+      }}
     >
       <div className={styles.name}>
         <p>{`${friend.firstName} ${friend.lastName}`}</p>
