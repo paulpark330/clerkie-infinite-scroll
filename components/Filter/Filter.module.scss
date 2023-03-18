@@ -5,13 +5,16 @@
   width: 100%;
   max-width: 1050px;
   .filter-btn {
-    @include flex(row, center, center);
-    width: 59px;
+    @include flex(row, center, center, 10px);
+    padding: 8.5px 20px;
     height: 37px;
     border: 1px solid var(--border);
     border-radius: 30px;
     background-color: var(--background);
     cursor: pointer;
+    .filter-count {
+      @include font(16px, 600, normal, 19px, var(--white))
+    }
   }
   .filter-btn-active {
     @extend .filter-btn;
@@ -28,9 +31,10 @@
     border: none;
     @include font(14px, 600, normal, 17px);
     color: var(--text-disabled);
-    &.-active {
-      color: var(--primary);
-      cursor: pointer;
-    }
+  }
+  .clear-btn-active {
+    @extend .clear-btn;
+    color: var(--primary);
+    cursor: pointer;
   }
 }

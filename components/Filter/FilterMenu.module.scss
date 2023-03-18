@@ -20,6 +20,11 @@
       background: none;
       border: none;
     }
+    .clear-btn-active {
+      @extend .clear-btn;
+      color: var(--primary);
+      cursor: pointer;
+    }
     .close-btn {
       position: absolute;
       right: 20px;

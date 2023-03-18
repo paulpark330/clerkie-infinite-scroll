@@ -1,0 +1,7 @@
+@import "../../../styles/mixin";
+
+.friends {
+  @include flex(column, center, center, 15px);
+  width: 100%;
+  max-width: 1050px;
+}

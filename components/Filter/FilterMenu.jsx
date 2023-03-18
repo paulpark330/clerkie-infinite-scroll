@@ -1,27 +1,39 @@
 import { Menu } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styles from "./FilterMenu.module.scss";
+import { FilterContext } from "@/store/filter-context";
 
 const FilterMenu = ({ handleClose, anchorEl, open }) => {
-  const [checkedValues, setCheckedValues] = useState({
-    closeFriends: false,
-    superCloseFriends: false,
+  const { checkedValues, updateCheckedValues } = useContext(FilterContext);
+
+  const [localValues, setLocalValues] = useState({
+    closeFriends: checkedValues.closeFriends,
+    superCloseFriends: checkedValues.superCloseFriends,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleClose(checkedValues);
+    updateCheckedValues(localValues);
+    handleClose();
   };
 
   const handleChange = (e) => {
-    setCheckedValues({
-      ...checkedValues,
+    setLocalValues({
+      ...localValues,
       [e.target.name]: e.target.checked,
     });
   };
 
-  const isDisabled = !Object.values(checkedValues).some((val) => val);
+  const handleClearAll = () => {
+    const newCheckedValues = Object.fromEntries(
+      Object.keys(checkedValues).map((key) => [key, false])
+    );
+    setLocalValues(newCheckedValues)
+    updateCheckedValues(newCheckedValues);
+  };
+
+  const hasCheckedFilters = Object.values(checkedValues).some((val) => val);
 
   return (
     <Menu
@@ -40,7 +52,16 @@ const FilterMenu = ({ handleClose, anchorEl, open }) => {
     >
       <div className={styles.container}>
         <div className={styles.header}>
-          <button className={styles["clear-btn"]}>Clear all</button>
+          <button
+            onClick={handleClearAll}
+            className={
+              hasCheckedFilters
+                ? styles["clear-btn-active"]
+                : styles["clear-btn"]
+            }
+          >
+            Clear all
+          </button>
           <div className={styles.title}>Filter</div>
           <button onClick={handleClose} className={styles["close-btn"]}>
             <Image
@@ -60,7 +81,7 @@ const FilterMenu = ({ handleClose, anchorEl, open }) => {
                 className={styles.checkbox}
                 type="checkbox"
                 name="closeFriends"
-                checked={checkedValues.closeFriends}
+                checked={localValues.closeFriends}
                 onChange={handleChange}
               />
             </div>
@@ -70,16 +91,12 @@ const FilterMenu = ({ handleClose, anchorEl, open }) => {
                 className={styles.checkbox}
                 type="checkbox"
                 name="superCloseFriends"
-                checked={checkedValues.superCloseFriends}
+                checked={localValues.superCloseFriends}
                 onChange={handleChange}
               />
             </div>
           </div>
-          <button
-            type="submit"
-            className={styles["submit-btn"]}
-            disabled={isDisabled}
-          >
+          <button type="submit" className={styles["submit-btn"]}>
             Apply
           </button>
         </form>

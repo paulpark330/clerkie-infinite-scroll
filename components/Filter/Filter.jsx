@@ -1,40 +1,72 @@
 "use client";
 
+import { useState, useContext, useEffect } from "react";
 import styles from "./Filter.module.scss";
-import { useState } from "react";
 import Image from "next/image";
 import FilterMenu from "./FilterMenu";
+import { FilterContext } from "@/store/filter-context";
 
 const Filter = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const { checkedValues, updateCheckedValues } = useContext(FilterContext);
+  const [checkedItemsCount, setCheckedItemsCount] = useState(0);
+
+  useEffect(() => {
+    const count = Object.values(checkedValues).filter((val) => val).length;
+    setCheckedItemsCount(count);
+  }, [checkedValues]);
 
   const toggleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (values) => {
+  const handleClose = () => {
     setAnchorEl(null);
-    console.log(values);
+  };
+
+  const handleClearAll = () => {
+    const newCheckedValues = Object.fromEntries(
+      Object.keys(checkedValues).map((key) => [key, false])
+    );
+    updateCheckedValues(newCheckedValues);
   };
 
   return (
     <div className={styles.filter}>
       <button
         onClick={toggleMenu}
-        className={open ? styles["filter-btn-active"] : styles["filter-btn"]}
+        className={
+          open || checkedItemsCount > 0
+            ? styles["filter-btn-active"]
+            : styles["filter-btn"]
+        }
       >
         <Image
           width={20}
           height={20}
           src={
-            open ? "/assets/filter-icon-dark.svg" : "/assets/filter-icon.svg"
+            open || checkedItemsCount > 0
+              ? "/assets/filter-icon-dark.svg"
+              : "/assets/filter-icon.svg"
           }
           alt="filter-icon"
         />
+        {checkedItemsCount > 0 && (
+          <div className={styles["filter-count"]}>{checkedItemsCount}</div>
+        )}
       </button>
       <div className={styles.divider}></div>
-      <button className={styles["clear-btn"]}>Clear all</button>
+      <button
+        onClick={handleClearAll}
+        className={
+          checkedItemsCount > 0
+            ? styles["clear-btn-active"]
+            : styles["clear-btn"]
+        }
+      >
+        Clear all
+      </button>
       {open && (
         <FilterMenu open={open} handleClose={handleClose} anchorEl={anchorEl} />
       )}
