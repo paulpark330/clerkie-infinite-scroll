@@ -5,7 +5,6 @@ const Home = () => {
   return (
     <main className={styles.main}>
       <Header title="Home" />
-      <h1>Home</h1>
     </main>
   );
 };

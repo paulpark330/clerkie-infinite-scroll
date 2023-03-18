@@ -1,11 +1,16 @@
-@import "../styles/mixin.scss";
+// import mixins
+@import "../../styles/mixin";
 
 .container {
   width: 100%;
   .main {
-    @include flex(row, center, center);
+    @include flex(column, center, center, 25px);
+    padding: 50px;
+
     .friends {
       @include flex(column, center, center, 15px);
+      width: 100%;
+      max-width: 1050px;
     }
   }
 }

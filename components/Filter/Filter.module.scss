@@ -1,0 +1,36 @@
+@import "../../styles/mixin";
+
+.filter {
+  @include flex(row, flex-start, center, 15px);
+  width: 100%;
+  max-width: 1050px;
+  .filter-btn {
+    @include flex(row, center, center);
+    width: 59px;
+    height: 37px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background-color: var(--background);
+    cursor: pointer;
+  }
+  .filter-btn-active {
+    @extend .filter-btn;
+    background-color: #424242;
+    border: 1px solid #424242;
+  }
+  .divider {
+    width: 1px;
+    height: 28px;
+    border-left: 1px solid var(--border);
+  }
+  .clear-btn {
+    background: none;
+    border: none;
+    @include font(14px, 600, normal, 17px);
+    color: var(--text-disabled);
+    &.-active {
+      color: var(--primary);
+      cursor: pointer;
+    }
+  }
+}

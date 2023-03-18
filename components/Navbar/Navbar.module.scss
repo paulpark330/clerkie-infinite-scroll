@@ -1,14 +1,16 @@
 @import "../../styles/mixin.scss";
 
 .container {
-  width: 220px;
+  @include flex(column, flex-start, flex-start, 20px);
+  width: 250px;
+  min-height: 100vh;;
   background-color: #091928;
-  padding: 15px;
+  padding: 30px 15px;
 }
 
 .logo-container {
   @include flex(row, flex-start, center, 11px);
-  margin: 10px 15px;
+  margin: 0 10px;
   .name {
     @include font(16px, 600, normal, 19px, var(--white));
   }
@@ -20,8 +22,8 @@
   .item {
     @include flex(row, flex-start, center, 7px);
     @include font(16px, 500, normal, 16px, var(--white));
-    height: 20px;
-    width: 200px;
+    height: 40px;
+    width: 220px;
     padding: 10px;
     border-radius: 6px;
     transition: background-color 0.2s ease-in-out;

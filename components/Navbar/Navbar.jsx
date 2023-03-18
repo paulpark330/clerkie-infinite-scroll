@@ -4,8 +4,8 @@ import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
   const links = [
-    { href: "/", imgSrc: "/assets/home-icon.png", text: "Home" },
-    { href: "/friends", imgSrc: "/assets/friends-icon.png", text: "Friends" },
+    { href: "/", imgSrc: "/assets/home-icon.svg", text: "Home" },
+    { href: "/friends", imgSrc: "/assets/friends-icon.svg", text: "Friends" },
   ];
 
   return (
@@ -15,7 +15,7 @@ const Navbar = () => {
           width={20}
           height={20}
           alt="logo"
-          src="/assets/clerkie-icon.png"
+          src="/assets/clerkie-icon.svg"
         />
         <div className={styles.name}>Clerkie Challenge</div>
       </Link>

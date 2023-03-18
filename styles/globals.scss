@@ -1,12 +1,19 @@
+@import "variables";
+
 :root {
-  --white: #ffffff;
-  --text: #000000;
-  --contact: #ababab;
-  --border: #d7d7d7;
-  --primary: #3399ff;
-  --primary-light: #dfefff;
-  --positive: #19b444;
-  --positive-light: #dcffe6;
+  --white: #{$white};
+  --text: #{$black};
+  --background: #{$white};
+  --contact: #{$gray600};
+  --border: #{$gray400};
+  --primary: #{$primary};
+  --primary-light: #{$primary-light};
+  --positive: #{$positive};
+  --positive-light: #{$positive-light};
+  --box-shadow: 0px 4px 4px rgba(112, 112, 112, 0.1);
+  --text-disabled: #{$gray400};
+  --filter-text: #{$gray800};
+  --filter-form: #{$gray900};
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,13 +21,18 @@
     color-scheme: dark;
   }
   :root {
-    --white: #ffffff;
-    --text: #ffffff;
-    --contact: #ababab;
-    --border: #d7d7d7;
-    --primary: #3399ff;
-    --primary-light: #dfefff;
-    --positive: #19b444;
-    --positive-light: #dcffe6;
+    --white: #{$white};
+    --text: #{$white};
+    --background: #{$gray900};
+    --contact: #{$gray600};
+    --border: #{$gray400};
+    --primary: #{$primary};
+    --primary-light: #{$primary-light};
+    --positive: #{$positive};
+    --positive-light: #{$positive-light};
+    --box-shadow: 0px 4px 4px rgba(59, 59, 59, 0.1);
+    --text-disabled: #{$gray400};
+    --filter-text: #{$white};
+    --filter-form: #{$gray200};
   }
 }

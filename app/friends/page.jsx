@@ -2,7 +2,11 @@ import Header from "@/components/Header/Header";
 import styles from "./page.module.scss";
 import Friend from "@/components/Friend/Friend";
 
+import Filter from "@/components/Filter/Filter";
+
 const Friends = () => {
+
+
   const data = [
     {
       id: 1,
@@ -110,10 +114,16 @@ const Friends = () => {
     },
   ];
 
+  const toggleFilter = () => {
+    console.log("toggle filter");
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={styles.container}>
       <Header title="Friends" />
       <main className={styles.main}>
+       <Filter />
         <ul className={styles.friends}>
           {data.map((friend) => (
             <Friend friend={friend} key={friend.id} />

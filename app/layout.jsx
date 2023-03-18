@@ -3,7 +3,6 @@ import styles from "./layout.module.scss";
 import "@/styles/globals.scss";
 import "@/styles/reset.scss";
 import { Inter } from "next/font/google";
-import Header from "@/components/Header/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,9 +19,7 @@ const RootLayout = ({ children }) => {
     <html lang="en" className={inter.className}>
       <body className={styles.container}>
         <Navbar />
-        <main className={styles.main}>
-          {children}
-        </main>
+        <main className={styles.main}>{children}</main>
       </body>
     </html>
   );

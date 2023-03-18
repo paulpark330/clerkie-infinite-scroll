@@ -11,7 +11,7 @@
   gap: $gap;
 }
 
-@mixin font($size, $weight, $style, $line-height, $color) {
+@mixin font($size, $weight, $style, $line-height, $color: null) {
   font-size: $size;
   font-weight: $weight;
   font-style: $style;

@@ -3,9 +3,9 @@
 .container {
   @include flex(row, flex-start, center);
   height: 80px;
-  background-color: var(--white);
-  box-shadow: 0px 4px 4px rgba(162, 162, 162, 0.1);
+  box-shadow: var(--box-shadow);
   padding: 0px 40px;
+  background-color: var(--background);
   .title {
     @include font(18px, 700, normal, 22px, var(--text));
   }
