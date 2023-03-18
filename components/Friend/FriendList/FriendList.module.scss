@@ -9,4 +9,13 @@
     @include font(20px, 400, normal, 17px, var(--text));
     margin-top: 10px;
   }
+  .loading {
+  }
+  .more {
+    @include font(20px, 400, normal, 17px, var(--text));
+    margin-top: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }

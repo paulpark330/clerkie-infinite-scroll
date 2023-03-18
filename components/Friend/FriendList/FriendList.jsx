@@ -1,15 +1,17 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Friend from "@/components/Friend/Friend";
 import styles from "./FriendList.module.scss";
+import { FilterContext } from "@/store/filter-context";
 
 const PAGE_SIZE = 10;
 const API_URL = "https://strapi-clerkie-infinite-scroll.up.railway.app/api";
 
 const FriendList = () => {
   const [lastPage, setLastPage] = useState(false);
+  const { checkedValues } = useContext(FilterContext);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -59,11 +61,44 @@ const FriendList = () => {
     }
   };
 
+  const handleClick = () => {
+    setSize((size) => size + 1);
+  };
+
   const allFriends = data ? data.flatMap((page) => page.data) : [];
 
+  const filterFriends = (checkedValues, allFriends) => {
+    const { closeFriends, superCloseFriends } = checkedValues;
+
+    if (!closeFriends && !superCloseFriends) {
+      return allFriends;
+    }
+
+    const filtered = allFriends.filter((friend) => {
+      if (closeFriends && superCloseFriends) {
+        return (
+          friend.attributes.friendStatus === 1 ||
+          friend.attributes.friendStatus === 2
+        );
+      }
+
+      if (closeFriends) {
+        return friend.attributes.friendStatus === 1;
+      }
+
+      if (superCloseFriends) {
+        return friend.attributes.friendStatus === 2;
+      }
+    });
+    console.log("filtered", filtered);
+    return filtered;
+  };
+
+  const filteredFriends = filterFriends(checkedValues, allFriends);
+
   return (
-    <ul onScroll={handleScroll} className={styles.friends}>
-      {allFriends.map((friend) => (
+    <ul className={styles.friends}>
+      {filteredFriends.map((friend) => (
         <Friend friend={friend.attributes} key={friend.id} />
       ))}
       {lastPage && (
@@ -72,7 +107,12 @@ const FriendList = () => {
         </div>
       )}
       {isValidating && !lastPage && (
-        <div className={styles["loading"]}>Loading...</div>
+        <div className={styles.loading}>Loading...</div>
+      )}
+      {!isValidating && !lastPage && (
+        <button className={styles.more} onClick={handleClick}>
+          🥳 Load more friends 🥳
+        </button>
       )}
     </ul>
   );
