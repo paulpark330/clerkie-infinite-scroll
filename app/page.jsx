@@ -7,7 +7,7 @@ const Home = () => {
     <main className={styles.main}>
       <Header title="Home" />
       <div className={styles.content}>
-        <Image width={400} height={400} src="/assets/clerkie-icon.svg" alt="logo" />
+        {/* <Image width={400} height={400} src="/assets/clerkie-icon.svg" alt="logo" /> */}
       </div>
     </main>
   );

@@ -4,6 +4,7 @@
   @include flex(row, flex-start, center, 15px);
   width: 100%;
   max-width: 1050px;
+  padding: 0 10px;
   .filter-btn {
     @include flex(row, center, center, 10px);
     padding: 8.5px 20px;
@@ -18,8 +19,8 @@
   }
   .filter-btn-active {
     @extend .filter-btn;
-    background-color: #424242;
-    border: 1px solid #424242;
+    background-color: var(--background);
+    border: 1px solid var(--border);
   }
   .divider {
     width: 1px;

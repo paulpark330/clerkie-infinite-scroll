@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import Friend from "@/components/Friend/Friend";
 import styles from "./FriendList.module.scss";
 import { FilterContext } from "@/store/filter-context";
+import FriendListSkeleton from "./FriendListSkeleton";
 
 const PAGE_SIZE = 10;
 const API_URL = "https://strapi-clerkie-infinite-scroll.up.railway.app/api";
@@ -41,13 +42,17 @@ const FriendList = () => {
       `${API_URL}/friends?sort[0]=id&pagination[page]=${nextPage}&pagination[pageSize]=${PAGE_SIZE}`,
     ];
   };
-
   const fetcher = async (url) => {
     const res = await fetch(url);
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-    return res.json();
+    // Simulate slow network to see the loading state
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(res.json());
+      }, 1000);
+    });
   };
 
   const { data, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
@@ -90,7 +95,6 @@ const FriendList = () => {
         return friend.attributes.friendStatus === 2;
       }
     });
-    console.log("filtered", filtered);
     return filtered;
   };
 
@@ -106,9 +110,7 @@ const FriendList = () => {
           🥳 You have so many friends! 🥳
         </div>
       )}
-      {isValidating && !lastPage && (
-        <div className={styles.loading}>Loading...</div>
-      )}
+      {isValidating && !lastPage && <FriendListSkeleton />}
       {!isValidating && !lastPage && (
         <button className={styles.more} onClick={handleClick}>
           🥳 Load more friends 🥳

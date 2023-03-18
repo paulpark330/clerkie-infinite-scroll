@@ -1,4 +1,4 @@
-@import "../../../styles/mixin";
+@import "../../styles/mixin";
 
 .friends {
   @include flex(column, flex-start, center, 15px);
@@ -9,8 +9,7 @@
     @include font(20px, 400, normal, 17px, var(--text));
     margin-top: 10px;
   }
-  .loading {
-  }
+
   .more {
     @include font(20px, 400, normal, 17px, var(--text));
     margin-top: 10px;

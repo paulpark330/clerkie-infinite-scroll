@@ -4,7 +4,7 @@ import Header from "@/components/Header/Header";
 const Loading = () => {
   return (
     <div className={styles.container}>
-      <Header title="Loading" />
+      <Header title="Loading..." />
       <main className={styles.main}></main>
     </div>
   );
