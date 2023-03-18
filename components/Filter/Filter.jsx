@@ -13,8 +13,9 @@ const Filter = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (values) => {
     setAnchorEl(null);
+    console.log(values);
   };
 
   return (
@@ -26,7 +27,9 @@ const Filter = () => {
         <Image
           width={20}
           height={20}
-          src={open ? "/assets/filter-icon-dark.svg" : "/assets/filter-icon.svg"}
+          src={
+            open ? "/assets/filter-icon-dark.svg" : "/assets/filter-icon.svg"
+          }
           alt="filter-icon"
         />
       </button>

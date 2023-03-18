@@ -11,8 +11,7 @@ const FilterMenu = ({ handleClose, anchorEl, open }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(checkedValues);
-    handleClose();
+    handleClose(checkedValues);
   };
 
   const handleChange = (e) => {
