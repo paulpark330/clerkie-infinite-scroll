@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./Friend.module.scss";
 
 const Friend = ({ friend }) => {
@@ -7,8 +10,30 @@ const Friend = ({ friend }) => {
     2: { name: "Super Close Friends", className: "super-close-friends" },
   };
 
+  const [hoverX, setHoverX] = useState(0);
+  const [hoverY, setHoverY] = useState(0);
+
+  const handleMouseMove = (event) => {
+    const { left, top, width, height } =
+      event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - left) / width - 0.5) * 10;
+    const y = ((event.clientY - top) / height - 0.5) * 10;
+    setHoverX(x);
+    setHoverY(y);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverX(0);
+    setHoverY(0);
+  };
+
   return (
-    <li className={styles.friend}>
+    <li
+      className={styles.friend}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transform: `translate(${hoverX}px, ${hoverY}px)` }}
+    >
       <div className={styles.name}>
         <p>{`${friend.firstName} ${friend.lastName}`}</p>
         <div

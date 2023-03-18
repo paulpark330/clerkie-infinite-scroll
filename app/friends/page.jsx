@@ -18,7 +18,7 @@ const Friends = async () => {
       <Header title="Friends" />
       <main className={styles.main}>
         <Filter />
-        <FriendList initialFriends={initialFriends} />
+        <FriendList />
       </main>
     </div>
   );
