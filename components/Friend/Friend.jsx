@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import styles from "./Friend.module.scss";
 
-const Friend = ({ friend }) => {
+const Friend = ({ friend, friendId }) => {
   const friendStatus = {
     0: { name: "Friends", className: "friends" },
     1: { name: "Close Friends", className: "close-friends" },
@@ -31,7 +32,8 @@ const Friend = ({ friend }) => {
   };
 
   return (
-    <li
+    <Link
+      href={`/friends/${friendId}`}
       className={styles.friend}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -50,7 +52,7 @@ const Friend = ({ friend }) => {
       <div className={styles.contact}>
         {`${friend.email} • ${friend.phoneNumber}`}
       </div>
-    </li>
+    </Link>
   );
 };
 

@@ -103,7 +103,7 @@ const FriendList = () => {
   return (
     <ul className={styles.friends}>
       {filteredFriends.map((friend) => (
-        <Friend friend={friend.attributes} key={friend.id} />
+        <Friend friend={friend.attributes} friendId={friend.id} key={friend.id} />
       ))}
       {lastPage && (
         <div className={styles["last-page"]}>
