@@ -9,7 +9,7 @@
   box-shadow: 0 0 10px 0px rgb(0 0 0 / 19%);
   background-color: var(--background);
   cursor: pointer;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease, background-color 0.3s ease;
   .name {
     @include flex(row, center, center, 10px);
     p {
@@ -23,12 +23,14 @@
       background-color: var(--primary-light);
       padding: 3px 7px;
       border-radius: 21px;
+      transition: background-color 0.3s ease;
     }
     .super-close-friends {
       @include font(12px, 600, normal, 15px, var(--positive));
       background-color: var(--positive-light);
       padding: 3px 7px;
       border-radius: 21px;
+      transition: background-color 0.3s ease;
     }
   }
   .contact {

@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
+
   const links = [
     { href: "/", imgSrc: "/assets/home-icon.svg", text: "Home" },
     { href: "/friends", imgSrc: "/assets/friends-icon.svg", text: "Friends" },
@@ -21,19 +25,15 @@ const Navbar = () => {
       </Link>
       <ul className={styles.menu}>
         {links.map((link) => (
-          <Link key={link.href} href={link.href}>
-            <div className={styles.item}>
-              <Image width={24} height={24} src={link.imgSrc} alt="icon" />
-              <div>{link.text}</div>
-            </div>
+          <Link className={styles.item} key={link.href} href={link.href}>
+            <Image width={24} height={24} src={link.imgSrc} alt="icon" />
+            <div>{link.text}</div>
           </Link>
         ))}
+        <ThemeToggle />
       </ul>
-    </nav>
+  </nav>
   );
 };
 
 export default Navbar;
-
-
-

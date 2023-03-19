@@ -28,45 +28,77 @@
     rgba(255, 255, 255, 0)
   );
   html,
+  body,
+  main {
+    background-color: #{$white};
+    transition: background-color 0.3s ease;
+  }
+}
+
+body[data-theme="light"] {
+  --white: #{$white};
+  --text: #{$black};
+  --background: #{$white};
+  --contact: #{$gray600};
+  --border: #{$gray400};
+  --primary: #{$primary};
+  --primary-light: #{$primary-light};
+  --positive: #{$positive};
+  --positive-light: #{$positive-light};
+  --box-shadow: 0px 4px 4px rgba(112, 112, 112, 0.1);
+  --filter-text: #{$gray800};
+  --filter-form: #{$gray900};
+  --filter-background: #{$white};
+  --filter-background-active: #{$gray800};
+  --clear-btn: #{$gray400};
+  --clear-btn-active: #{$primary};
+  --loading: #{$gray200};
+  --loading-dark: #{$gray300};
+  --loading-gradient: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.5) 25%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0)
+  );
+  html,
   body {
     background-color: #{$white};
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  :root {
-    --white: #{$white};
-    --text: #{$white};
-    --background: #{$gray900};
-    --contact: #{$gray600};
-    --border: #{$gray800};
-    --primary: #{$primary-light};
-    --primary-light: #{$primary-dark};
-    --positive: #{$positive-light};
-    --positive-light: #{$positive-dark};
-    --box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.1);
-    --filter-text: #{$white};
-    --filter-form: #{$gray700};
-    --filter-background: #{$gray1000};
-    --filter-background-active: #{$gray800};
-    --clear-btn: #{$gray400};
-    --clear-btn-active: #{$primary};
-    --loading: #{$gray900};
-    --loading-dark: #{$gray800};
-    --loading-gradient: linear-gradient(
-      90deg,
-      rgba(50, 50, 50, 0),
-      rgba(50, 50, 50, 0.5) 25%,
-      rgba(50, 50, 50, 0.8) 50%,
-      rgba(50, 50, 50, 0.5) 75%,
-      rgba(50, 50, 50, 0)
-    );
-    html,
-    body {
-      background-color: #{$gray1000};
-    }
+body[data-theme="dark"] {
+  --white: #{$white};
+  --text: #{$white};
+  --background: #{$gray900};
+  --contact: #{$gray600};
+  --border: #{$gray800};
+  --primary: #{$primary-light};
+  --primary-light: #{$primary-dark};
+  --positive: #{$positive-light};
+  --positive-light: #{$positive-dark};
+  --box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.1);
+  --filter-text: #{$white};
+  --filter-form: #{$gray700};
+  --filter-background: #{$gray1000};
+  --filter-background-active: #{$gray800};
+  --clear-btn: #{$gray400};
+  --clear-btn-active: #{$primary};
+  --loading: #{$gray900};
+  --loading-dark: #{$gray800};
+  --loading-gradient: linear-gradient(
+    90deg,
+    rgba(50, 50, 50, 0),
+    rgba(50, 50, 50, 0.5) 25%,
+    rgba(50, 50, 50, 0.8) 50%,
+    rgba(50, 50, 50, 0.5) 75%,
+    rgba(50, 50, 50, 0)
+  );
+  html,
+  body,
+  main {
+    background-color: #{$gray1000};
+    transition: background-color 0.3s ease;
   }
 }

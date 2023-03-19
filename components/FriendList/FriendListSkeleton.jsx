@@ -1,7 +1,7 @@
 import styles from "./FriendListSkeleton.module.scss";
 
 const FriendListSkeleton = () => {
-  const skeletonItems = new Array(7).fill(null);
+  const skeletonItems = new Array(10).fill(null);
 
   return (
     <>

@@ -7,6 +7,8 @@
   box-shadow: var(--box-shadow);
   padding: 0px 40px;
   background-color: var(--background);
+  z-index: 1;
+  transition: background-color 0.3s ease;
   .title {
     @include font(18px, 700, normal, 22px, var(--text));
   }

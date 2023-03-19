@@ -12,6 +12,7 @@
     border: 1px solid var(--border);
     border-radius: 30px;
     background-color: var(--filter-background);
+    transition: background-color 0.3s ease;
     cursor: pointer;
     .filter-count {
       @include font(16px, 600, normal, 19px, var(--white))
