@@ -15,7 +15,7 @@ const ThemeToggle = () => {
         className={styles.input}
         id="theme-toggle"
       />
-      <label className={styles.label} for="theme-toggle">
+      <label className={styles.label} htmlFor="theme-toggle">
         <svg
           version="1.1"
           className={styles.sun}
