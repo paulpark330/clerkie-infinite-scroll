@@ -31,11 +31,11 @@
     background: none;
     border: none;
     @include font(14px, 600, normal, 17px);
-    color: var(--text-disabled);
+    color: var(--clear-btn);
   }
   .clear-btn-active {
     @extend .clear-btn;
-    color: var(--primary);
+    color: var(--clear-btn-active);
     cursor: pointer;
   }
 }

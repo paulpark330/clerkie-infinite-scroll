@@ -11,11 +11,12 @@
   --positive: #{$positive};
   --positive-light: #{$positive-light};
   --box-shadow: 0px 4px 4px rgba(112, 112, 112, 0.1);
-  --text-disabled: #{$gray400};
   --filter-text: #{$gray800};
   --filter-form: #{$gray900};
   --filter-background: #{$white};
   --filter-background-active: #{$gray800};
+  --clear-btn: #{$gray400};
+  --clear-btn-active: #{$primary};
   --loading: #{$gray200};
   --loading-dark: #{$gray300};
   --loading-gradient: linear-gradient(
@@ -47,11 +48,12 @@
     --positive: #{$positive-light};
     --positive-light: #{$positive-dark};
     --box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.1);
-    --text-disabled: #{$gray400};
     --filter-text: #{$white};
     --filter-form: #{$gray700};
     --filter-background: #{$gray1000};
     --filter-background-active: #{$gray800};
+    --clear-btn: #{$gray400};
+    --clear-btn-active: #{$primary};
     --loading: #{$gray900};
     --loading-dark: #{$gray800};
     --loading-gradient: linear-gradient(

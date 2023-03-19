@@ -15,7 +15,7 @@
       @include font(16px, 600, normal, 19px, var(--filter-text));
     }
     .clear-btn {
-      @include font(14px, 600, normal, 17px, var(--text-disabled));
+      @include font(14px, 600, normal, 17px, var(--clear-btn));
       position: absolute;
       left: 25px;
       background: none;
@@ -23,7 +23,7 @@
     }
     .clear-btn-active {
       @extend .clear-btn;
-      color: var(--primary);
+      color: var(--clear-btn-active);
       cursor: pointer;
     }
     .close-btn {
