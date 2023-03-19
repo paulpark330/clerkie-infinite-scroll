@@ -14,6 +14,8 @@
   --text-disabled: #{$gray400};
   --filter-text: #{$gray800};
   --filter-form: #{$gray900};
+  --filter-background: #{$white};
+  --filter-background-active: #{$gray800};
   --loading: #{$gray200};
   --loading-dark: #{$gray300};
   --loading-gradient: linear-gradient(
@@ -39,7 +41,7 @@
     --text: #{$white};
     --background: #{$gray900};
     --contact: #{$gray600};
-    --border: #{$gray400};
+    --border: #{$gray800};
     --primary: #{$primary-light};
     --primary-light: #{$primary-dark};
     --positive: #{$positive-light};
@@ -48,6 +50,8 @@
     --text-disabled: #{$gray400};
     --filter-text: #{$white};
     --filter-form: #{$gray700};
+    --filter-background: #{$gray1000};
+    --filter-background-active: #{$gray800};
     --loading: #{$gray900};
     --loading-dark: #{$gray800};
     --loading-gradient: linear-gradient(
