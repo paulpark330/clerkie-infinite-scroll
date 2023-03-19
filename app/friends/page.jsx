@@ -4,7 +4,7 @@ import Filter from "@/components/Filter/Filter";
 import FriendList from "@/components/FriendList/FriendList";
 import { Suspense } from "react";
 
-const Friends = async () => {
+const FriendsPage = async () => {
   return (
     <Suspense>
       <div className={styles.container}>
@@ -18,4 +18,4 @@ const Friends = async () => {
   );
 };
 
-export default Friends;
+export default FriendsPage;

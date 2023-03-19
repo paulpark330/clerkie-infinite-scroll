@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header";
 import { Suspense } from "react";
 import styles from "./page.module.scss";
+import FriendDetails from "@/components/FriendDetails/FriendDetails";
 
 export const dynamicParams = true;
 
@@ -31,7 +32,7 @@ const getFriend = async (slug) => {
   return friend;
 };
 
-const FriendDetails = async ({ params }) => {
+const FriendDetailsPage = async ({ params }) => {
   const friend = await getFriend(params.slug);
 
   let headerTitle = "Friend Not Found";
@@ -43,10 +44,12 @@ const FriendDetails = async ({ params }) => {
     <Suspense>
       <div className={styles.container}>
         <Header title={headerTitle} />
-        <main className={styles.main}></main>
+        <main className={styles.main}>
+          <FriendDetails friend={friend.data.attributes} />
+        </main>
       </div>
     </Suspense>
   );
 };
 
-export default FriendDetails;
+export default FriendDetailsPage;

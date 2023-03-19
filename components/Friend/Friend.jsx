@@ -18,8 +18,8 @@ const Friend = ({ friend, friendId }) => {
   const handleMouseMove = (event) => {
     const { left, top, width, height } =
       event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - left) / width - 0.5) * 10;
-    const y = ((event.clientY - top) / height - 0.5) * 10;
+    const x = ((event.clientX - left) / width - 0.5) * 50;
+    const y = ((event.clientY - top) / height - 0.5) * 30;
     setHoverX(x);
     setHoverY(y);
     setScale(1.05);

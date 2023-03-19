@@ -61,7 +61,7 @@ const FriendList = () => {
     const { scrollTop, scrollHeight, clientHeight } =
       window.document.documentElement;
 
-    if (scrollTop + clientHeight >= scrollHeight && !lastPage) {
+    if (scrollTop + clientHeight >= scrollHeight && !lastPage && isValidating) {
       setSize((size) => size + 1);
     }
   };
