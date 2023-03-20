@@ -11,8 +11,19 @@ In addition, the project includes a skeleton screen loading state, which display
 - [SCSS](https://sass-lang.com/)
 - [Material UI](https://mui.com/)
 - [Strapi](https://strapi.io/)
+- [Vercel](https://vercel.com/)
 
-## Features
+### Installation
+
+To get started, just clone the repository and run `npm install && npm run dev`:
+
+    git clone https://github.com/paulpark330/clerkie-infinite-scroll.git
+    npm install
+    npm run dev
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Features
 
 - Responsive design
 
@@ -20,16 +31,16 @@ In addition, the project includes a skeleton screen loading state, which display
 
 - Infinite scroll functionality
 
-  <img src="./public/gifs/infinite-scroll.gif" width="200"/>
+  <img src="./public/gifs/infinite-scroll.gif" width="300"/>
 
 - Filter management with Context API and local storage
 
-  <img src="./public/gifs/filter.gif" width="200"/>
+  <img src="./public/gifs/filter.gif" width="300"/>
 
 - Dark mode
 
-  <img src="./public/gifs/dark-mode.gif" width="200"/>
+  <img src="./public/gifs/dark-mode.gif" width="300"/>
 
 - Skeleton screen for loading state
 
-  <img src="./public/gifs/skeleton.gif" width="200"/>
+  <img src="./public/gifs/skeleton.gif" width="300"/>
