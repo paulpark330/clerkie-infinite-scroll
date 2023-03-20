@@ -4,15 +4,15 @@ Clerkie Infinite Scroll aims to implement an infinite scroll feature with filter
 
 In addition, the project includes a skeleton loading state, which displays a temporary animation while waiting for the data to load. The loading state is implemented using CSS animations and keyframes.
 
-![Clerkie Infinite Scroll Demo](./infinite-scroll.gif)
-![Filter Demo](./filter.gif)
-![Dark Mode Demo](./dark-mode.gif)
 ## Features
 
 - [Next.js 13 App Router](https://beta.nextjs.org/docs)  
 - Infinite scroll functionality
+
+ <img src="./infinite-scroll.gif" width="300" height="649"/>
 - Fetches data from [headless CMS](https://strapi.io/) with [useSWRInfinite](https://swr.vercel.app/docs/pagination#useswrinfinite) hook
 - Filter management with Context API and local storage 
+ <img src="./filter.gif" width="300" height="649"/>
 - Responsive design
 - Dark mode
- 
+ <img src="./dark-mode.gif" width="300" height="649"/>
