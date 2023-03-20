@@ -53,10 +53,7 @@ const FriendList = () => {
     ];
   };
 
-  const { data, size, setSize, isValidating, isLoading } = useSWRInfinite(
-    getKey,
-    fetcher
-  );
+  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
@@ -69,7 +66,7 @@ const FriendList = () => {
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } =
       window.document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight) {
+    if (scrollTop + clientHeight >= scrollHeight - 80) {
       setSize((size) => size + 1);
     }
   };

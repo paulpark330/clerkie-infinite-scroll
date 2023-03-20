@@ -8,7 +8,6 @@ export const NavProvider = ({ children }) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const toggleNav = () => {
-    console.log("navOpen: ", navOpen);
     setNavOpen(!navOpen);
   };
 
