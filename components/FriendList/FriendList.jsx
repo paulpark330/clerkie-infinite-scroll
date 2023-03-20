@@ -16,13 +16,13 @@ const fetcher = async (url) => {
     throw new Error(res.statusText);
   }
 
-  return res.json();
+  // return res.json();
   // Simulate slow network to see the loading state
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(res.json());
-  //   }, 500);
-  // });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(res.json());
+    }, 1000);
+  });
 };
 
 const FriendList = () => {

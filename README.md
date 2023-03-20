@@ -6,13 +6,13 @@ In addition, the project includes a skeleton loading state, which displays a tem
 
 ## Features
 
-- [Next.js 13 App Router](https://beta.nextjs.org/docs)  
+- [Next.js 13 App Router](https://beta.nextjs.org/docs)
 - Infinite scroll functionality
-
- <img src="./infinite-scroll.gif" width="300" height="649"/>
-- Fetches data from [headless CMS](https://strapi.io/) with [useSWRInfinite](https://swr.vercel.app/docs/pagination#useswrinfinite) hook
-- Filter management with Context API and local storage 
- <img src="./filter.gif" width="300" height="649"/>
-- Responsive design
+  <img src="./infinite-scroll.gif" width="200"/>
+- Filter management with Context API and local storage
+  <img src="./filter.gif" width="200"/>
 - Dark mode
- <img src="./dark-mode.gif" width="300" height="649"/>
+  <img src="./dark-mode.gif" width="200"/>
+- Responsive design
+- Skeleton screen for loading state
+- Fetches data from [headless CMS](https://strapi.io/) with [useSWRInfinite](https://swr.vercel.app/docs/pagination#useswrinfinite) hook
