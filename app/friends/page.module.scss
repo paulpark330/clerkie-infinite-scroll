@@ -9,5 +9,8 @@
     @include flex(column, flex-start, center, 25px);
     padding: 50px;
     flex: 1;
+    @media screen and (max-width: 700px) {
+      padding: 20px 5px;
+    }
   }
 }

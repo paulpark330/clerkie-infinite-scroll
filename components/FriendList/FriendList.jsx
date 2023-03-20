@@ -10,19 +10,28 @@ import FriendListSkeleton from "./FriendListSkeleton";
 const PAGE_SIZE = 10;
 const API_URL = "https://strapi-clerkie-infinite-scroll.up.railway.app/api";
 
-const FriendList = () => {
-  const [lastPage, setLastPage] = useState(false);
-  const { checkedValues } = useContext(FilterContext);
+const fetcher = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  return res.json();
+  // Simulate slow network to see the loading state
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(res.json());
+  //   }, 1000);
+  // });
+};
+
+const FriendList = () => {
+  const { checkedValues } = useContext(FilterContext);
+  const [lastPage, setLastPage] = useState(false);
 
   const getKey = (pageIndex, previousPageData) => {
-    if (previousPageData && !previousPageData.data.length) {
-      return null;
-    }
+    if (previousPageData && !previousPageData.data.length) return null;
+
     if (pageIndex === 0) {
       return [
         `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}`,
@@ -37,31 +46,30 @@ const FriendList = () => {
       return null;
     }
 
-    const nextPage = previousPageData.meta.pagination.page + 1;
     return [
-      `${API_URL}/friends?sort[0]=id&pagination[page]=${nextPage}&pagination[pageSize]=${PAGE_SIZE}`,
+      `${API_URL}/friends?sort[0]=id&pagination[page]=${
+        pageIndex + 1
+      }&pagination[pageSize]=${PAGE_SIZE}`,
     ];
   };
-  const fetcher = async (url) => {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    // Simulate slow network to see the loading state
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(res.json());
-      }, 1000);
-    });
-  };
 
-  const { data, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
+  const { data, size, setSize, isValidating, isLoading } = useSWRInfinite(
+    getKey,
+    fetcher
+  );
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } =
       window.document.documentElement;
-
-    if (scrollTop + clientHeight >= scrollHeight && !lastPage && isValidating) {
+    if (scrollTop + clientHeight >= scrollHeight) {
       setSize((size) => size + 1);
     }
   };
@@ -103,15 +111,19 @@ const FriendList = () => {
   return (
     <ul className={styles.friends}>
       {filteredFriends.map((friend) => (
-        <Friend friend={friend.attributes} friendId={friend.id} key={friend.id} />
+        <Friend
+          friend={friend.attributes}
+          friendId={friend.id}
+          key={friend.id}
+        />
       ))}
       {lastPage && (
         <div className={styles["last-page"]}>
           🥳 You have so many friends! 🥳
         </div>
       )}
-      {isValidating && !lastPage && <FriendListSkeleton />}
-      {!isValidating && !lastPage && (
+      {(isLoading || isLoadingMore) && !lastPage && <FriendListSkeleton />}
+      {!lastPage && !isLoadingMore && (
         <button className={styles.more} onClick={handleClick}>
           🥳 Load more friends 🥳
         </button>

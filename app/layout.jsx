@@ -4,7 +4,7 @@ import "@/styles/globals.scss";
 import "@/styles/reset.scss";
 import { Inter } from "next/font/google";
 import { FilterProvider } from "@/store/filter-context";
-import { FriendProvider } from "@/store/friends-context";
+import { NavProvider } from "@/store/nav-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,10 +21,10 @@ const RootLayout = ({ children }) => {
     <html lang="en" className={inter.className}>
       <body className={styles.container}>
         <FilterProvider>
-          <FriendProvider>
+          <NavProvider>
             <Navbar />
             <main className={styles.main}>{children}</main>
-          </FriendProvider>
+          </NavProvider>
         </FilterProvider>
       </body>
     </html>

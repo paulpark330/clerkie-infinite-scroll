@@ -1,24 +1,23 @@
 @import "../../styles/mixin.scss";
 
-.container {
-  @include flex(column, flex-start, flex-start, 20px);
-  min-width: 250px;
-  min-height: 100vh;
-  background-color: #091928;
-  padding: 30px 15px;
-}
-
-.logo-container {
-  @include flex(row, flex-start, center, 11px);
-  margin: 0 10px;
-  .name {
-    @include font(16px, 600, normal, 19px, var(--white));
-  }
-}
+// .container {
+//   @include flex(column, flex-start, flex-start, 20px);
+//   min-width: 250px;
+//   min-height: 100vh;
+//   background-color: #091928;
+//   padding: 30px 15px;
+// }
 
 .menu {
   @include flex(column, flex-start, flex-start);
   width: 100%;
+  .logo-container {
+    @include flex(row, flex-start, center, 11px);
+    margin: 0 10px;
+    .name {
+      @include font(16px, 600, normal, 19px, var(--white));
+    }
+  }
   .item {
     @include flex(row, flex-start, center, 7px);
     @include font(16px, 500, normal, 16px, var(--white));
