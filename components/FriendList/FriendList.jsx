@@ -26,15 +26,21 @@ const fetcher = async (url) => {
 };
 
 const FriendList = () => {
-  const { checkedValues } = useContext(FilterContext);
+  const { checkedValues, searchTerm } = useContext(FilterContext);
   const [lastPage, setLastPage] = useState(false);
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) return null;
 
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+
+    const searchFilters = searchTerm
+      ? `&filters[$or][0][firstName][$contains]=${encodedSearchTerm}&filters[$or][1][lastName][$contains]=${encodedSearchTerm}&filters[$or][2][email][$contains]=${encodedSearchTerm}`
+      : "";
+
     if (pageIndex === 0) {
       return [
-        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}`,
+        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}${searchFilters}`,
       ];
     }
 
@@ -49,7 +55,7 @@ const FriendList = () => {
     return [
       `${API_URL}/friends?sort[0]=id&pagination[page]=${
         pageIndex + 1
-      }&pagination[pageSize]=${PAGE_SIZE}`,
+      }&pagination[pageSize]=${PAGE_SIZE}${searchFilters}`,
     ];
   };
 

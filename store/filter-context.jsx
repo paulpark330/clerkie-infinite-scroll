@@ -18,6 +18,8 @@ export const FilterProvider = ({ children }) => {
     return storedCheckedValues ?? defaultCheckedValues;
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem(
@@ -31,11 +33,17 @@ export const FilterProvider = ({ children }) => {
     setCheckedValues(newValues);
   };
 
+  const updateSearchTerm = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+  };
+
   return (
     <FilterContext.Provider
       value={{
         checkedValues,
         updateCheckedValues,
+        searchTerm,
+        updateSearchTerm,
       }}
     >
       {children}

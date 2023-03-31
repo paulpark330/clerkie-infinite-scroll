@@ -1,42 +1,48 @@
 @import "../../styles/mixin";
 
-.filter {
+.container {
   @include flex(row, flex-start, center, 15px);
   width: 100%;
   max-width: 1050px;
-  padding: 0 10px;
-  .filter-btn {
-    @include flex(row, center, center, 10px);
-    padding: 8.5px 20px;
-    height: 37px;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    background-color: var(--filter-background);
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    .filter-count {
-      @include font(16px, 600, normal, 19px, var(--white))
+  .filter {
+    @include flex(row, flex-start, center, 15px);
+    padding: 0 10px;
+    .filter-btn {
+      @include flex(row, center, center, 10px);
+      padding: 8.5px 20px;
+      height: 37px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background-color: var(--filter-background);
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      .filter-count {
+        @include font(16px, 600, normal, 19px, var(--white));
+      }
+    }
+    .filter-btn-active {
+      @extend .filter-btn;
+      background-color: var(--filter-background-active);
+      border: 1px solid var(--border);
+    }
+    .divider {
+      width: 1px;
+      height: 28px;
+      border-left: 1px solid var(--border);
+    }
+    .clear-btn {
+      background: none;
+      border: none;
+      @include font(14px, 600, normal, 17px);
+      color: var(--clear-btn);
+    }
+    .clear-btn-active {
+      @extend .clear-btn;
+      color: var(--clear-btn-active);
+      cursor: pointer;
     }
   }
-  .filter-btn-active {
-    @extend .filter-btn;
-    background-color: var(--filter-background-active);
-    border: 1px solid var(--border);
-  }
-  .divider {
-    width: 1px;
-    height: 28px;
-    border-left: 1px solid var(--border);
-  }
-  .clear-btn {
-    background: none;
-    border: none;
-    @include font(14px, 600, normal, 17px);
-    color: var(--clear-btn);
-  }
-  .clear-btn-active {
-    @extend .clear-btn;
-    color: var(--clear-btn-active);
-    cursor: pointer;
+  .search {
+    padding: 0 10px;
   }
 }
