@@ -47,10 +47,8 @@ const FriendList = () => {
     }
 
     if (
-      // !deepSearch &&
-      !quickSearch &&
       previousPageData.meta.pagination.page ===
-        previousPageData.meta.pagination.pageCount
+      previousPageData.meta.pagination.pageCount
     ) {
       setLastPage(true);
       return null;
@@ -70,9 +68,11 @@ const FriendList = () => {
   );
 
   useEffect(() => {
-    console.log({ data, isLoading, isValidating, lastPage });
-  }, [data, isLoading, isValidating, lastPage]);
+    const allFriends = data ? data.flatMap((page) => page.data) : [];
+    setFetchedFriends(allFriends);
+  }, [data]);
 
+  //Infinite Scroll Logic
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -82,8 +82,8 @@ const FriendList = () => {
             !isLoading &&
             !isValidating &&
             !lastPage &&
-            !isQuickSearching
-            // !isDeepSearching
+            !isQuickSearching &&
+            !isDeepSearching
           ) {
             console.log("Loading more friends...");
             setSize(size + 1);
@@ -104,13 +104,15 @@ const FriendList = () => {
         observer.unobserve(loadMoreButtonRef.current);
       }
     };
-  }, [isLoading, isValidating, lastPage, isQuickSearching]);
+  }, [
+    isLoading,
+    isValidating,
+    lastPage,
+    isQuickSearching,
+    loadMoreButtonRef.current,
+  ]);
 
-  useEffect(() => {
-    const allFriends = data ? data.flatMap((page) => page.data) : [];
-    setFetchedFriends(allFriends);
-  }, [data]);
-
+  // Quick Search Logic
   useEffect(() => {
     if (quickSearch.trim().length > 0) {
       setIsQuickSearching(true);
@@ -126,6 +128,7 @@ const FriendList = () => {
     }
   }, [fetchedFriends, quickSearch]);
 
+  // Deep Search Logic
   useEffect(() => {
     const deepSearchFriends = async () => {
       if (deepSearch.trim().length > 0) {
@@ -140,8 +143,9 @@ const FriendList = () => {
           );
 
           const deepSearchedFriends = await res.json();
-          setIsDeepSearching(false);
           setRenderedList(deepSearchedFriends.data);
+          setIsQuickSearching(false);
+          setIsDeepSearching(false);
         }, 500);
       }
     };
@@ -165,9 +169,20 @@ const FriendList = () => {
         <FriendListSkeleton count={10} />
       )}
 
-      {isDeepSearching && <FriendListSkeleton count={1} />}
+      {(isDeepSearching || isQuickSearching) && (
+        <>
+          <FriendListSkeleton count={1} />
+          <div className={styles.more}>🔎 Searching for "{quickSearch}" 🔎</div>
+        </>
+      )}
 
-      {!lastPage && !isQuickSearching && !isDeepSearching && (
+      {!isQuickSearching && !isDeepSearching && !filteredFriends.length && (
+        <div className={styles.more}>
+          🥺 No results found for "{deepSearch}" 🥺
+        </div>
+      )}
+
+      {!lastPage && !quickSearch.length && (
         <button className={styles.more} ref={loadMoreButtonRef}>
           🥳 Load more friends 🥳
         </button>
