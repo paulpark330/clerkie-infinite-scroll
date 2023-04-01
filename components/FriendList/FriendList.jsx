@@ -17,15 +17,15 @@ const fetcher = async (url) => {
     throw new Error(res.statusText);
   }
 
-  // return res.json();
+  return res.json();
 
   // Simulate slow network to see the loading state
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(res.json());
-    }, 500);
-  });
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(res.json());
+  //   }, 500);
+  // });
 };
 
 const FriendList = () => {
@@ -85,7 +85,6 @@ const FriendList = () => {
             !isQuickSearching &&
             !isDeepSearching
           ) {
-            console.log("Loading more friends...");
             setSize(size + 1);
           }
         });
@@ -137,16 +136,15 @@ const FriendList = () => {
         const searchQueryParams = `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`;
 
         setIsDeepSearching(true);
-        setTimeout(async () => {
-          const res = await fetch(
-            `${API_URL}/friends?sort[0]=id&pagination[page]=1&pagination[pageSize]=200&${searchQueryParams}`
-          );
 
-          const deepSearchedFriends = await res.json();
-          setRenderedList(deepSearchedFriends.data);
-          setIsQuickSearching(false);
-          setIsDeepSearching(false);
-        }, 500);
+        const res = await fetch(
+          `${API_URL}/friends?sort[0]=id&pagination[page]=1&pagination[pageSize]=200&${searchQueryParams}`
+        );
+
+        const deepSearchedFriends = await res.json();
+        setRenderedList(deepSearchedFriends.data);
+        setIsQuickSearching(false);
+        setIsDeepSearching(false);
       }
     };
 
