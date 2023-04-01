@@ -24,7 +24,7 @@ const fetcher = async (url) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(res.json());
-    }, 1000);
+    }, 500);
   });
 };
 
@@ -34,18 +34,11 @@ const FriendList = () => {
   const [fetchedFriends, setFetchedFriends] = useState([]);
   const [renderedList, setRenderedList] = useState([]);
   const [isQuickSearching, setIsQuickSearching] = useState(false);
-  // const [isDeepSearching, setIsDeepSearching] = useState(false);
+  const [isDeepSearching, setIsDeepSearching] = useState(false);
   const loadMoreButtonRef = useRef();
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) return null;
-
-    // const encodedSearchTerm = encodeURIComponent(deepSearch.trim());
-
-    // const searchQueryParams =
-    //   deepSearch.length > 0
-    //     ? `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`
-    //     : "";
 
     if (pageIndex === 0) {
       return [
@@ -118,25 +111,49 @@ const FriendList = () => {
     setFetchedFriends(allFriends);
   }, [data]);
 
-  const filteredFriends = useFriendFilter(fetchedFriends);
-
   useEffect(() => {
     if (quickSearch.trim().length > 0) {
       setIsQuickSearching(true);
-      const quickSearchedFriends = filteredFriends.filter((friend) => {
+      const quickSearchedFriends = fetchedFriends.filter((friend) => {
         const fullName = `${friend.attributes.firstName} ${friend.attributes.lastName}`;
         return fullName.toLowerCase().includes(quickSearch.toLowerCase());
       });
+
       setRenderedList(quickSearchedFriends);
     } else {
+      setRenderedList(fetchedFriends);
       setIsQuickSearching(false);
-      setRenderedList(filteredFriends);
     }
-  }, [filteredFriends, quickSearch]);
+  }, [fetchedFriends, quickSearch]);
+
+  useEffect(() => {
+    const deepSearchFriends = async () => {
+      if (deepSearch.trim().length > 0) {
+        const encodedSearchTerm = encodeURIComponent(deepSearch.trim());
+
+        const searchQueryParams = `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`;
+
+        setIsDeepSearching(true);
+        setTimeout(async () => {
+          const res = await fetch(
+            `${API_URL}/friends?sort[0]=id&pagination[page]=1&pagination[pageSize]=200&${searchQueryParams}`
+          );
+
+          const deepSearchedFriends = await res.json();
+          setIsDeepSearching(false);
+          setRenderedList(deepSearchedFriends.data);
+        }, 500);
+      }
+    };
+
+    deepSearchFriends();
+  }, [deepSearch]);
+
+  const filteredFriends = useFriendFilter(renderedList);
 
   return (
     <ul className={styles.friends}>
-      {renderedList.map((friend) => (
+      {filteredFriends.map((friend) => (
         <Friend
           friend={friend.attributes}
           friendId={friend.id}
@@ -148,7 +165,9 @@ const FriendList = () => {
         <FriendListSkeleton count={10} />
       )}
 
-      {!lastPage && !isQuickSearching && (
+      {isDeepSearching && <FriendListSkeleton count={1} />}
+
+      {!lastPage && !isQuickSearching && !isDeepSearching && (
         <button className={styles.more} ref={loadMoreButtonRef}>
           🥳 Load more friends 🥳
         </button>
