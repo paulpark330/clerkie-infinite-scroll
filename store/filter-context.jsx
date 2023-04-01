@@ -10,8 +10,8 @@ export const FilterProvider = ({ children }) => {
     superCloseFriends: false,
   };
 
-  const [searchTerms, setSearchTerms] = useState("");
-  const [liveTerms, setLiveTerms] = useState("");
+  const [deepSearch, setDeepSearch] = useState("");
+  const [quickSearch, setQuickSearch] = useState("");
 
   const [checkedValues, setCheckedValues] = useState(() => {
     const storedCheckedValues =
@@ -34,12 +34,12 @@ export const FilterProvider = ({ children }) => {
     setCheckedValues(newValues);
   };
 
-  const updateSearchTerms = (searchTerm) => {
-    setSearchTerms(searchTerm);
+  const updateDeepSearch = (searchTerm) => {
+    setDeepSearch(searchTerm);
   };
 
-  const updateLiveTerms = (liveTerm) => {
-    setLiveTerms(liveTerm);
+  const updateQuickSearch = (searchTerm) => {
+    setQuickSearch(searchTerm);
   };
 
   return (
@@ -47,10 +47,10 @@ export const FilterProvider = ({ children }) => {
       value={{
         checkedValues,
         updateCheckedValues,
-        searchTerms,
-        updateSearchTerms,
-        liveTerms,
-        updateLiveTerms,
+        deepSearch,
+        updateDeepSearch,
+        quickSearch,
+        updateQuickSearch,
       }}
     >
       {children}

@@ -1,11 +1,12 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Friend from "@/components/Friend/Friend";
 import styles from "./FriendList.module.scss";
 import { FilterContext } from "@/store/filter-context";
 import FriendListSkeleton from "./FriendListSkeleton";
+import useFriendFilter from "@/hooks/useFriendFilter";
 
 const PAGE_SIZE = 10;
 const API_URL = "https://strapi-clerkie-infinite-scroll.up.railway.app/api";
@@ -17,38 +18,46 @@ const fetcher = async (url) => {
   }
 
   // return res.json();
+
   // Simulate slow network to see the loading state
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(res.json());
-    }, 5000);
+    }, 1000);
   });
 };
 
 const FriendList = () => {
-  const { checkedValues, searchTerms, liveTerms } = useContext(FilterContext);
+  const { deepSearch, quickSearch } = useContext(FilterContext);
   const [lastPage, setLastPage] = useState(false);
+  const [fetchedFriends, setFetchedFriends] = useState([]);
   const [renderedList, setRenderedList] = useState([]);
+  const [isQuickSearching, setIsQuickSearching] = useState(false);
+  // const [isDeepSearching, setIsDeepSearching] = useState(false);
+  const loadMoreButtonRef = useRef();
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) return null;
 
-    const encodedSearchTerm = encodeURIComponent(searchTerms.trim());
+    // const encodedSearchTerm = encodeURIComponent(deepSearch.trim());
 
-    const searchQueryParams =
-      searchTerms.length > 0
-        ? `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`
-        : "";
+    // const searchQueryParams =
+    //   deepSearch.length > 0
+    //     ? `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`
+    //     : "";
 
     if (pageIndex === 0) {
       return [
-        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}${searchQueryParams}`,
+        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}`,
       ];
     }
 
     if (
+      // !deepSearch &&
+      !quickSearch &&
       previousPageData.meta.pagination.page ===
-      previousPageData.meta.pagination.pageCount
+        previousPageData.meta.pagination.pageCount
     ) {
       setLastPage(true);
       return null;
@@ -57,93 +66,98 @@ const FriendList = () => {
     return [
       `${API_URL}/friends?sort[0]=id&pagination[page]=${
         pageIndex + 1
-      }&pagination[pageSize]=${PAGE_SIZE}${searchQueryParams}`,
+      }&pagination[pageSize]=${PAGE_SIZE}`,
     ];
   };
 
-  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
-
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    console.log({ data, isLoading, isValidating, lastPage });
+  }, [data, isLoading, isValidating, lastPage]);
 
-  const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } =
-      window.document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 80) {
-      setSize((size) => size + 1);
-    }
-  };
-
-  const handleClick = () => {
-    setSize((size) => size + 1);
-  };
-
-
-  const allFriends = data ? data.flatMap((page) => page.data) : [];
-
-  const filterFriends = (checkedValues, allFriends) => {
-    const { closeFriends, superCloseFriends } = checkedValues;
-
-    if (!closeFriends && !superCloseFriends) {
-      return allFriends;
-    }
-
-    const filtered = allFriends.filter((friend) => {
-      if (closeFriends && superCloseFriends) {
-        return (
-          friend.attributes.friendStatus === 1 ||
-          friend.attributes.friendStatus === 2
-        );
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (
+            entry.isIntersecting &&
+            !isLoading &&
+            !isValidating &&
+            !lastPage &&
+            !isQuickSearching
+            // !isDeepSearching
+          ) {
+            console.log("Loading more friends...");
+            setSize(size + 1);
+          }
+        });
+      },
+      {
+        rootMargin: "0px",
       }
-
-      if (closeFriends) {
-        return friend.attributes.friendStatus === 1;
-      }
-
-      if (superCloseFriends) {
-        return friend.attributes.friendStatus === 2;
-      }
-    });
-
-    return filtered;
-  };
-
-  const searchFriends = (liveTerms, allFriends) => {
-    return allFriends.filter((friend) =>
-      friend.attributes.firstName.toLowerCase().includes(liveTerms.toLowerCase().trim())
     );
-  };
 
-  const filteredFriends = filterFriends(checkedValues, allFriends);
+    if (loadMoreButtonRef.current) {
+      observer.observe(loadMoreButtonRef.current);
+    }
 
-  if (liveTerms) {
-    console.log("searchFriends : ", searchFriends(liveTerms, allFriends));
-  }
+    return () => {
+      if (loadMoreButtonRef.current) {
+        observer.unobserve(loadMoreButtonRef.current);
+      }
+    };
+  }, [isLoading, isValidating, lastPage, isQuickSearching]);
+
+  useEffect(() => {
+    const allFriends = data ? data.flatMap((page) => page.data) : [];
+    setFetchedFriends(allFriends);
+  }, [data]);
+
+  const filteredFriends = useFriendFilter(fetchedFriends);
+
+  useEffect(() => {
+    if (quickSearch.trim().length > 0) {
+      setIsQuickSearching(true);
+      const quickSearchedFriends = filteredFriends.filter((friend) => {
+        const fullName = `${friend.attributes.firstName} ${friend.attributes.lastName}`;
+        return fullName.toLowerCase().includes(quickSearch.toLowerCase());
+      });
+      setRenderedList(quickSearchedFriends);
+    } else {
+      setIsQuickSearching(false);
+      setRenderedList(filteredFriends);
+    }
+  }, [filteredFriends, quickSearch]);
 
   return (
     <ul className={styles.friends}>
-      {filteredFriends.map((friend) => (
+      {renderedList.map((friend) => (
         <Friend
           friend={friend.attributes}
           friendId={friend.id}
           key={friend.id}
         />
       ))}
+
+      {(isLoading || isValidating) && !lastPage && (
+        <FriendListSkeleton count={10} />
+      )}
+
+      {!lastPage && !isQuickSearching && (
+        <button className={styles.more} ref={loadMoreButtonRef}>
+          🥳 Load more friends 🥳
+        </button>
+      )}
+
       {lastPage && (
         <div className={styles["last-page"]}>
           🥳 You have so many friends! 🥳
         </div>
-      )}
-      {(isLoading || isLoadingMore) && !lastPage && <FriendListSkeleton />}
-      {!lastPage && !isLoadingMore && (
-        <button className={styles.more} onClick={handleClick}>
-          🥳 Load more friends 🥳
-        </button>
       )}
     </ul>
   );

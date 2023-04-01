@@ -8,14 +8,11 @@ export const dynamicParams = true;
 export const generateStaticParams = async () => {
   let res;
   res = await fetch(
-    "https://strapi-clerkie-infinite-scroll.up.railway.app/api/friends?sort[0]=id&pagination[page]=1&pagination[pageSize]=100"
+    "https://strapi-clerkie-infinite-scroll.up.railway.app/api/friends?sort[0]=id&pagination[page]=1&pagination[pageSize]=200"
   );
   const firstPage = await res.json();
-  res = await fetch(
-    "https://strapi-clerkie-infinite-scroll.up.railway.app/api/friends?sort[0]=id&pagination[page]=2&pagination[pageSize]=100"
-  );
-  const secondPage = await res.json();
-  const friends = [...firstPage.data, ...secondPage.data];
+
+  const friends = [...firstPage.data];
 
   const mappedFriends = friends.map((friend) => ({
     slug: friend.id,

@@ -1,22 +1,21 @@
 import { FilterContext } from "@/store/filter-context";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import styles from "./SearchBar.module.scss";
 import debounce from "@/lib/debounce";
 
 const SearchBar = () => {
-  const { updateSearchTerms, updateLiveTerms } = useContext(FilterContext);
-
-  const handleDebounceChange = debounce((searchTerm) => {
-    updateSearchTerms(searchTerm);
-  }, 500);
-
-  const handleLiveChange = (searchTerm) => {
-    updateLiveTerms(searchTerm);
-  };
+  const { updateDeepSearch, updateQuickSearch } = useContext(FilterContext);
+  const debouncedUpdateDeepSearch = useCallback(
+    debounce((searchTerm) => {
+      updateDeepSearch(searchTerm);
+    }, 500),
+    []
+  );
 
   const handleChange = (e) => {
-    handleLiveChange(e.target.value);
-    handleDebounceChange(e.target.value);
+    const searchTerm = e.target.value;
+    updateQuickSearch(searchTerm);
+    debouncedUpdateDeepSearch(searchTerm);
   };
 
   return (
