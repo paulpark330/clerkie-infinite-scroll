@@ -16,25 +16,33 @@ const fetcher = async (url) => {
     throw new Error(res.statusText);
   }
 
-  return res.json();
+  // return res.json();
   // Simulate slow network to see the loading state
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(res.json());
-  //   }, 1000);
-  // });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(res.json());
+    }, 5000);
+  });
 };
 
 const FriendList = () => {
-  const { checkedValues } = useContext(FilterContext);
+  const { checkedValues, searchTerms, liveTerms } = useContext(FilterContext);
   const [lastPage, setLastPage] = useState(false);
+  const [renderedList, setRenderedList] = useState([]);
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) return null;
 
+    const encodedSearchTerm = encodeURIComponent(searchTerms.trim());
+
+    const searchQueryParams =
+      searchTerms.length > 0
+        ? `&filters[$or][0][firstName][$containsi]=${encodedSearchTerm}&filters[$or][1][lastName][$containsi]=${encodedSearchTerm}`
+        : "";
+
     if (pageIndex === 0) {
       return [
-        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}`,
+        `${API_URL}/friends?sort[0]=id&pagination[pageSize]=${PAGE_SIZE}${searchQueryParams}`,
       ];
     }
 
@@ -49,7 +57,7 @@ const FriendList = () => {
     return [
       `${API_URL}/friends?sort[0]=id&pagination[page]=${
         pageIndex + 1
-      }&pagination[pageSize]=${PAGE_SIZE}`,
+      }&pagination[pageSize]=${PAGE_SIZE}${searchQueryParams}`,
     ];
   };
 
@@ -74,6 +82,7 @@ const FriendList = () => {
   const handleClick = () => {
     setSize((size) => size + 1);
   };
+
 
   const allFriends = data ? data.flatMap((page) => page.data) : [];
 
@@ -100,10 +109,21 @@ const FriendList = () => {
         return friend.attributes.friendStatus === 2;
       }
     });
+
     return filtered;
   };
 
+  const searchFriends = (liveTerms, allFriends) => {
+    return allFriends.filter((friend) =>
+      friend.attributes.firstName.toLowerCase().includes(liveTerms.toLowerCase().trim())
+    );
+  };
+
   const filteredFriends = filterFriends(checkedValues, allFriends);
+
+  if (liveTerms) {
+    console.log("searchFriends : ", searchFriends(liveTerms, allFriends));
+  }
 
   return (
     <ul className={styles.friends}>

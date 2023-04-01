@@ -10,6 +10,9 @@ export const FilterProvider = ({ children }) => {
     superCloseFriends: false,
   };
 
+  const [searchTerms, setSearchTerms] = useState("");
+  const [liveTerms, setLiveTerms] = useState("");
+
   const [checkedValues, setCheckedValues] = useState(() => {
     const storedCheckedValues =
       typeof window !== "undefined"
@@ -31,11 +34,23 @@ export const FilterProvider = ({ children }) => {
     setCheckedValues(newValues);
   };
 
+  const updateSearchTerms = (searchTerm) => {
+    setSearchTerms(searchTerm);
+  };
+
+  const updateLiveTerms = (liveTerm) => {
+    setLiveTerms(liveTerm);
+  };
+
   return (
     <FilterContext.Provider
       value={{
         checkedValues,
         updateCheckedValues,
+        searchTerms,
+        updateSearchTerms,
+        liveTerms,
+        updateLiveTerms,
       }}
     >
       {children}
