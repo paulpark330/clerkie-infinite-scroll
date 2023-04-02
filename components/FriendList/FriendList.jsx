@@ -36,6 +36,7 @@ const FriendList = () => {
   const [isQuickSearching, setIsQuickSearching] = useState(false);
   const [isDeepSearching, setIsDeepSearching] = useState(false);
   const loadMoreButtonRef = useRef();
+  const currentLoadMoreButtonRef = loadMoreButtonRef.current;
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.data.length) return null;
@@ -94,13 +95,13 @@ const FriendList = () => {
       }
     );
 
-    if (loadMoreButtonRef.current) {
-      observer.observe(loadMoreButtonRef.current);
+    if (currentLoadMoreButtonRef) {
+      observer.observe(currentLoadMoreButtonRef);
     }
 
     return () => {
-      if (loadMoreButtonRef.current) {
-        observer.unobserve(loadMoreButtonRef.current);
+      if (currentLoadMoreButtonRef) {
+        observer.unobserve(currentLoadMoreButtonRef);
       }
     };
   }, [
@@ -108,7 +109,10 @@ const FriendList = () => {
     isValidating,
     lastPage,
     isQuickSearching,
-    loadMoreButtonRef.current,
+    isDeepSearching,
+    setSize,
+    size,
+    currentLoadMoreButtonRef,
   ]);
 
   // Quick Search Logic
@@ -170,13 +174,15 @@ const FriendList = () => {
       {(isDeepSearching || isQuickSearching) && (
         <>
           <FriendListSkeleton count={1} />
-          <div className={styles.more}>🔎 Searching for "{quickSearch}" 🔎</div>
+          <div className={styles.more}>
+            🔎 Searching for &quot;{quickSearch}&quot; 🔎
+          </div>
         </>
       )}
 
       {!isQuickSearching && !isDeepSearching && !filteredFriends.length && (
         <div className={styles.more}>
-          🥺 No results found for "{deepSearch}" 🥺
+          🥺 No results found for &quot;{deepSearch}&quot; 🥺
         </div>
       )}
 
