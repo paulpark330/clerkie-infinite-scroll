@@ -5,9 +5,12 @@ import debounce from "@/lib/debounce";
 
 const SearchBar = () => {
   const { updateDeepSearch, updateQuickSearch } = useContext(FilterContext);
-  const debouncedUpdateDeepSearch = debounce((searchTerm) => {
-    updateDeepSearch(searchTerm);
-  }, 500);
+  const debouncedUpdateDeepSearch = useCallback(
+    debounce((searchTerm) => {
+      updateDeepSearch(searchTerm);
+    }, 500),
+    []
+  );
 
   const handleChange = (e) => {
     const searchTerm = e.target.value;

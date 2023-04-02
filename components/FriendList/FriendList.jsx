@@ -71,6 +71,7 @@ const FriendList = () => {
   useEffect(() => {
     const allFriends = data ? data.flatMap((page) => page.data) : [];
     setFetchedFriends(allFriends);
+    console.log("data : ", data);
   }, [data]);
 
   //Infinite Scroll Logic
@@ -146,6 +147,7 @@ const FriendList = () => {
         );
 
         const deepSearchedFriends = await res.json();
+
         setRenderedList(deepSearchedFriends.data);
         setIsQuickSearching(false);
         setIsDeepSearching(false);
